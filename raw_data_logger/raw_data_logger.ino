@@ -13,7 +13,7 @@
 #define DEBUGOUTPUT 0
 
 #define HEADSET_BAUDRATE    57600
-#define SERIAL_USB_BAUDRATE 57600
+#define SERIAL_USB_BAUDRATE 115200
 
 // checksum variables
 byte generatedChecksum = 0;
@@ -81,8 +81,7 @@ void loop() {
         for (int i = 0; i < payloadLength; i++) {  // Parse the payload
           switch (payloadData[i]) {
             case CODE_SIGNAL_QUALITY:
-              i++;
-              poorQuality = payloadData[i];
+              poorQuality = payloadData[i + 1];
               bigPacket = true;
               break;
 
@@ -90,6 +89,8 @@ void loop() {
               // Not used yet
               if( payloadData[i + 1] == 24)
               {
+                Serial.print(poorQuality);
+                Serial.print(":");
                 // Delta
                 Serial.print(payloadData[i + 2]);
                 Serial.print(",");
