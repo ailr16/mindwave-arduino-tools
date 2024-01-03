@@ -6,3 +6,9 @@ Welcome, here you'll find an API to make easier working with Nerusoky Mindwave a
 https://developer.neurosky.com/docs/lib/exe/fetch.php?media=mindset_communications_protocol.pdf
 
 **WORK IN PROGRESS**
+
+## Interfaces
+getAttention()
+getMeditation()
+getRaw()
+getAllRaw()
