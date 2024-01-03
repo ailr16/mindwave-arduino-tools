@@ -8,7 +8,7 @@ https://developer.neurosky.com/docs/lib/exe/fetch.php?media=mindset_communicatio
 **WORK IN PROGRESS**
 
 ## Interfaces
-getAttention()
-getMeditation()
-getRaw()
-getAllRaw()
+getAttention()  
+getMeditation()  
+getRaw()  
+getAllRaw()  
