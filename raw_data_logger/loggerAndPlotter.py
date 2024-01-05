@@ -13,30 +13,14 @@ skip_lines = 4
 processed_data1 = []
 final_data = [
     [],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
-    [ [], [], [] ],
+    [],
     []
 ]
-
-names = ["mid_gamma",
-         "low_gamma",
-         "high_beta",
-         "low_beta",
-         "high_alpha",
-         "low_alpha",
-         "theta",
-         "delta",]
 
 while i < 32:
     actual_line = str(board.readline())
     if( i > skip_lines ):
-        if len(actual_line) > 54:
+        if len(actual_line) > 9 and len(actual_line) < 17:
             lines.append( actual_line )
             print( actual_line )
     i += 1
@@ -56,41 +40,3 @@ for processed_line in processed_data1:
         for value in actual_processed_line.pop().split(','):
             final_data[i + 1][j].append(int(value))
             j += 1
-
-def cli_print():
-    print( 32*"-" + " RESULTS " + 32*"-" )
-    print("TOTAL samples=",len(final_data[0]))
-    print( "Sample\tQuality\tM_gamma\tL_gamma\tH_beta\tL_beta\tH_alpha\tL_alpha\ttheta\tdelta" )
-    for i in range(len(final_data[0])):
-        print( "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}".format(
-            final_data[9][i],
-            final_data[0][i],
-            final_data[1][0][i],
-            final_data[2][0][i],
-            final_data[3][0][i],
-            final_data[4][0][i],
-            final_data[5][0][i],
-            final_data[6][0][i],
-            final_data[7][0][i],
-            final_data[8][0][i]
-            ) )
-    
-def savelog_csv():
-    numpy.savetxt(
-        "/home/ailr16/Documents/test.csv",
-        numpy.c_[final_data[9],
-                 final_data[0],
-                 final_data[1][0],
-                 final_data[2][0],
-                 final_data[3][0],
-                 final_data[4][0],
-                 final_data[5][0],
-                 final_data[6][0],
-                 final_data[7][0],
-                 final_data[8][0]],
-                 delimiter=",",
-                 header="Sample,Quality,M_gamma,L_gamma,H_beta,L_beta,H_alpha,L_alpha,theta,delta"
-    )
-
-cli_print()
-savelog_csv()

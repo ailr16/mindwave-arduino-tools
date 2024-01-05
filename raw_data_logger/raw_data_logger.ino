@@ -85,67 +85,14 @@ void loop() {
               bigPacket = true;
               break;
 
-            case CODE_ASIC_EEG_POWER:
-              // Not used yet
-              if( payloadData[i + 1] == 24)
+            case CODE_RAW_WAVE_VALUE:
+              if( payloadData[i + 1] == 2)
               {
                 Serial.print(poorQuality);
                 Serial.print(":");
-                // Delta
-                Serial.print(payloadData[i + 2]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 3]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 4]);
-                Serial.print(":");
-                // Theta
-                Serial.print(payloadData[i + 5]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 6]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 7]);
-                Serial.print(":");
-                // Low alpha
-                Serial.print(payloadData[i + 8]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 9]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 10]);
-                Serial.print(":");
-                // High alpha
-                Serial.print(payloadData[i + 11]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 12]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 13]);
-                Serial.print(":");
-                // Low beta
-                Serial.print(payloadData[i + 14]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 15]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 16]);
-                Serial.print(":");
-                // HHigh beta
-                Serial.print(payloadData[i + 17]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 18]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 19]);
-                Serial.print(":");
-                // Low gamma
-                Serial.print(payloadData[i + 20]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 21]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 22]);
-                Serial.print(":");
-                // Mid gamma
-                Serial.print(payloadData[i + 23]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 24]);
-                Serial.print(",");
-                Serial.print(payloadData[i + 25]);
+                Serial.print( payloadData[i + 2] );
+                Serial.print( ":" );
+                Serial.print( payloadData[i + 3] );
                 Serial.print("\n");
               }
               break;
