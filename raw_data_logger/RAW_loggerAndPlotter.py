@@ -4,11 +4,11 @@
 
 import serial
 import numpy
-import tkinter as tk
+import matplotlib.pyplot as plt
 
 board = serial.Serial( port="/dev/ttyACM0", baudrate=115200, timeout=1 )
 
-samples_to_read = 2000
+samples_to_read = 10000
 
 i = 0
 lines = []
@@ -74,5 +74,14 @@ def savelog_csv():
                  header="Sample,Quality,H_byte,L_byte,Real"
     )
 
+def plot():
+    fig = plt.figure(1)
+    plt.plot(final_data[4], final_data[3])
+    plt.xlabel('Sample')
+    plt.ylabel('Raw value')
+    plt.grid()
+    plt.show()
+
 cli_print()
 savelog_csv()
+plot()
