@@ -1,4 +1,10 @@
+#include "HardwareSerial.h"
 #include "mindwaveTools.h"
+
+MindwaveHeadset::MindwaveHeadset(void) : serialPort(Serial1)
+{
+  this->serialPort.begin( HEADSET_BAUDRATE );
+}
 
 unsigned int MindwaveHeadset::getAttention()
 {
@@ -17,12 +23,12 @@ int MindwaveHeadset::getRaw()
 
 void MindwaveHeadset::getAllRaw(long *allRawArray)
 {
-  allRawArray[ALLRAW_OUTPUT_DELTA_INDEX]      = this->allRawArray[0]
-  allRawArray[ALLRAW_OUTPUT_THETA_INDEX]      = this->allRawArray[1]
-  allRawArray[ALLRAW_OUTPUT_LOW_APLHA_INDEX]  = this->allRawArray[2]
-  allRawArray[ALLRAW_OUTPUT_HIGH_APLHA_INDEX] = this->allRawArray[3]
-  allRawArray[ALLRAW_OUTPUT_LOW_BETA_INDEX]   = this->allRawArray[4]
-  allRawArray[ALLRAW_OUTPUT_HIGH_BETA_INDEX]  = this->allRawArray[5]
-  allRawArray[ALLRAW_OUTPUT_LOW_GAMMA_INDEX]  = this->allRawArray[6]
-  allRawArray[ALLRAW_OUTPUT_MID_GAMMA_INDEX]  = this->allRawArray[7]
+  allRawArray[ALLRAW_OUTPUT_DELTA_INDEX]      = this->allRawArray[0];
+  allRawArray[ALLRAW_OUTPUT_THETA_INDEX]      = this->allRawArray[1];
+  allRawArray[ALLRAW_OUTPUT_LOW_APLHA_INDEX]  = this->allRawArray[2];
+  allRawArray[ALLRAW_OUTPUT_HIGH_APLHA_INDEX] = this->allRawArray[3];
+  allRawArray[ALLRAW_OUTPUT_LOW_BETA_INDEX]   = this->allRawArray[4];
+  allRawArray[ALLRAW_OUTPUT_HIGH_BETA_INDEX]  = this->allRawArray[5];
+  allRawArray[ALLRAW_OUTPUT_LOW_GAMMA_INDEX]  = this->allRawArray[6];
+  allRawArray[ALLRAW_OUTPUT_MID_GAMMA_INDEX]  = this->allRawArray[7];
 }

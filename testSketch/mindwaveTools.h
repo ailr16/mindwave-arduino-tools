@@ -4,7 +4,7 @@
 #define SYNC_BYTE_1   0xAA
 #define SYNC_BYTE_2   0xAA
 
-#define DATA_QUALITY_LED    13
+#define HEADSET_BAUDRATE    57600u
 
 #define CODE_SIGNAL_QUALITY 0x02
 #define CODE_ATTENTION      0x04
@@ -21,6 +21,8 @@
 #define ALLRAW_OUTPUT_LOW_GAMMA_INDEX  6
 #define ALLRAW_OUTPUT_MID_GAMMA_INDEX  7
 
+#include <HardwareSerial.h>
+
 class MindwaveHeadset
 {
   private:
@@ -31,10 +33,12 @@ class MindwaveHeadset
     long allRawArray[8];
 
   public:
+    MindwaveHeadset( void );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
     int getRaw( void );
     void getAllRaw( long *allRawArray );
+    HardwareSerial serialPort;
 };
 
 #endif
