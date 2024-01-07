@@ -11,25 +11,24 @@
 
 #include "mindwaveTools.h"
 
-//////////////////////////
-// Microprocessor Setup //
-//////////////////////////
+MindwaveHeadset headset(Serial1);
+
 void setup() {
   Serial.begin(SERIAL_USB_BAUDRATE);   // USB
-  MindwaveHeadset headset( Serial1 );
+  headset.init();
   pinMode(13, OUTPUT);
 }
 
-////////////////////////////////
-// Read data from Serial UART //
-////////////////////////////////
-byte ReadOneByte() {
-  
-}
-
-/////////////
-//MAIN LOOP//
-/////////////
 void loop() {
 
+}
+
+int flag = 0;
+int readHeadsetFlag = 0;
+
+ISR(TIMER1_COMPA_vect)
+{
+  flag ^= 1;
+  digitalWrite(13, flag);
+  headset.readHeadset();
 }

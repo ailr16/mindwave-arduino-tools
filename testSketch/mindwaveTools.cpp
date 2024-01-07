@@ -2,9 +2,73 @@
 #include "HardwareSerial.h"
 #include "mindwaveTools.h"
 
-MindwaveHeadset::MindwaveHeadset( HardwareSerial serialPort ) : serialPort( serialPort )
+
+byte MindwaveHeadset::ReadOneByte() {
+  int ByteRead;
+
+  ByteRead = Serial1.read();
+
+  return ByteRead;
+}
+
+void MindwaveHeadset::readHeadset()
+{
+  // Look for sync bytes
+  if (ReadOneByte() == SYNC_BYTE_1) {
+    if (ReadOneByte() == SYNC_BYTE_2) {
+      payloadLength = this->ReadOneByte();
+
+      if (payloadLength > 169)  //Payload length can not be greater than 169
+        return;
+
+      generatedChecksum = 0;
+      for (int i = 0; i < payloadLength; i++) {
+        payloadData[i] = ReadOneByte();  //Read payload into memory
+        generatedChecksum += payloadData[i];
+      }
+
+      checksum = ReadOneByte();                      //Read checksum byte from stream
+      generatedChecksum = 0xFF - generatedChecksum;  //Take one's compliment of generated checksum
+
+      if (checksum == generatedChecksum) {
+        poorQuality = 200;
+        attention = 0;
+        meditation = 0;
+
+        for (int i = 0; i < payloadLength; i++) {  // Parse the payload
+          switch (payloadData[i]) {
+            case CODE_SIGNAL_QUALITY:
+              poorQuality = payloadData[i + 1];
+              break;
+
+            case CODE_RAW_WAVE_VALUE:
+              if( payloadData[i + 1] == 2)
+              {
+                Serial.print(poorQuality);
+                Serial.print(":");
+                Serial.print( payloadData[i + 2] );
+                Serial.print( ":" );
+                Serial.print( payloadData[i + 3] );
+                Serial.print("\n");
+              }
+              break;
+
+            default:
+              break;
+          }
+        }
+      }
+    }    // end if read 0xAA byte
+  }      // end if read 0xAA byte
+}
+
+MindwaveHeadset::MindwaveHeadset( HardwareSerial& serialPort ) : serialPort( serialPort )
 {
   this->serialPort.begin( HEADSET_BAUDRATE );
+}
+
+void MindwaveHeadset::init()
+{
   this->initTimer();
 }
 
@@ -47,12 +111,4 @@ void MindwaveHeadset::initTimer()
   TCCR1B |= (1 << CS10);
   TIMSK1 |= (1 << OCIE1A);
   sei();
-}
-
-uint8_t flag = 0;
-
-ISR(TIMER1_COMPA_vect)
-{
-  flag ^= 1;
-  digitalWrite(13, flag);
 }

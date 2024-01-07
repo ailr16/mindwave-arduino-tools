@@ -33,14 +33,24 @@ class MindwaveHeadset
     int rawValue;
     long allRawArray[8];
     void initTimer( void );
+    byte ReadOneByte( void );
+    byte payloadData[64] = { 0 };
+    byte generatedChecksum = 0;
+    byte checksum = 0;
+    int payloadLength = 0;
+    byte poorQuality = 0;
+    byte attention = 0;
+    byte meditation = 0;
 
   public:
     MindwaveHeadset( void );
-    MindwaveHeadset( HardwareSerial serialPort );
+    MindwaveHeadset( HardwareSerial& serialPort );
+    void init( void );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
     int getRaw( void );
     void getAllRaw( long *allRawArray );
+    void readHeadset( void );
 };
 
 #endif
