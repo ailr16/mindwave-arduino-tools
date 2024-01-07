@@ -26,19 +26,21 @@
 class MindwaveHeadset
 {
   private:
+    HardwareSerial serialPort;
     unsigned int qualityValue;
     unsigned int attentionValue;
     unsigned int meditationValue;
     int rawValue;
     long allRawArray[8];
+    void initTimer( void );
 
   public:
     MindwaveHeadset( void );
+    MindwaveHeadset( HardwareSerial serialPort );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
     int getRaw( void );
     void getAllRaw( long *allRawArray );
-    HardwareSerial serialPort;
 };
 
 #endif
