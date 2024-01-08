@@ -15,20 +15,12 @@ MindwaveHeadset headset(Serial1);
 
 void setup() {
   Serial.begin(SERIAL_USB_BAUDRATE);   // USB
+  Serial1.begin(57600);
   headset.init();
   pinMode(13, OUTPUT);
 }
 
 void loop() {
-
-}
-
-int flag = 0;
-int readHeadsetFlag = 0;
-
-ISR(TIMER1_COMPA_vect)
-{
-  flag ^= 1;
-  digitalWrite(13, flag);
   headset.readHeadset();
+  //Serial.println(headset.getRaw());
 }
