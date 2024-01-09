@@ -21,5 +21,5 @@ void setup() {
 
 void loop() {
   headset.readHeadset();
-  //Serial.println(headset.getRaw());
+  Serial.println(headset.getRaw());
 }

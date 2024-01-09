@@ -26,6 +26,7 @@
 class MindwaveHeadset
 {
   private:
+    /* General attributes */
     Stream& serialPort;
     unsigned int qualityValue;
     unsigned int attentionValue;
@@ -34,6 +35,14 @@ class MindwaveHeadset
     long allRawArray[8];
     byte ReadOneByte(void);
 
+    /* Attributes used by reading methods */
+    byte generatedChecksum;
+    byte checksum;
+    int  payloadLength;
+    byte payloadData[64];
+    byte poorQuality;
+    byte attention;
+    byte meditation;
 
   public:
     MindwaveHeadset( void );
