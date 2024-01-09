@@ -16,7 +16,6 @@ MindwaveHeadset headset(Serial1);
 void setup() {
   Serial.begin(SERIAL_USB_BAUDRATE);   // USB
   Serial1.begin(57600);
-  headset.init();
   pinMode(13, OUTPUT);
 }
 

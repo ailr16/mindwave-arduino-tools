@@ -21,29 +21,23 @@
 #define ALLRAW_OUTPUT_LOW_GAMMA_INDEX  6
 #define ALLRAW_OUTPUT_MID_GAMMA_INDEX  7
 
-#include <HardwareSerial.h>
+#include <Arduino.h>
 
 class MindwaveHeadset
 {
   private:
-    HardwareSerial serialPort;
+    Stream& serialPort;
     unsigned int qualityValue;
     unsigned int attentionValue;
     unsigned int meditationValue;
     int rawValue;
     long allRawArray[8];
-    byte ReadOneByte( void );
-    byte payloadData[64];
-    byte generatedChecksum;
-    byte checksum;
-    int payloadLength;
-    byte poorQuality;
-    byte attention;
-    byte meditation;
+    byte ReadOneByte(void);
+
 
   public:
     MindwaveHeadset( void );
-    MindwaveHeadset( HardwareSerial serialPort );
+    MindwaveHeadset( Stream& serialPort );
     void init( void );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
