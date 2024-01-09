@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #define DEBUGOUTPUT 0
-#define SERIAL_USB_BAUDRATE 57600
+#define SERIAL_USB_BAUDRATE 115200
 
 #include "mindwaveTools.h"
 
@@ -21,5 +21,5 @@ void setup() {
 
 void loop() {
   headset.readHeadset();
-  Serial.println(headset.getRaw());
+  Serial.println(headset.getAttention());
 }

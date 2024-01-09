@@ -83,6 +83,7 @@ void loop() {
             case CODE_SIGNAL_QUALITY:
               poorQuality = payloadData[i + 1];
               bigPacket = true;
+              Serial.println("QUALITY");
               break;
 
             case CODE_ASIC_EEG_POWER:

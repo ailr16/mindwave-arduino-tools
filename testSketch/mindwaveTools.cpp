@@ -52,17 +52,58 @@ void MindwaveHeadset::readHeadset()
             {
               case CODE_SIGNAL_QUALITY:
                 poorQuality = payloadData[i + 1];
+                //Serial.println("QUALITY");
+                break;
+              
+              case CODE_ATTENTION:
+                attention = payloadData[i + 1];
+                //Serial.println("ATTENTION");
+                break;
+              
+              case CODE_MEDITATION:
+                meditation = payloadData[i + 1];
+                //Serial.println("MEDITATION");
                 break;
 
               case CODE_RAW_WAVE_VALUE:
                 if( payloadData[i + 1] == 2 )
                 {
                   rawValue = (payloadData[i + 2] * 256) + payloadData[i + 3];
+                  if( (rawValue & 0x8000) == 1 )
+                  {
+                    rawValue = rawValue - 0x10000;
+                  }
                 }
+                //Serial.println("RAW");
+                break;
+
+              case CODE_ASIC_EEG_POWER:
+                if( payloadData[i + 1] == 24 )
+                {
+                  allRawArray[ALLRAW_OUTPUT_DELTA_INDEX]      = (payloadData[i + 2] << 16) + (payloadData[i + 3] << 8) + payloadData[i + 4];
+                  allRawArray[ALLRAW_OUTPUT_THETA_INDEX]      = (payloadData[i + 5] << 16) + (payloadData[i + 6] << 8) + payloadData[i + 7];
+                  allRawArray[ALLRAW_OUTPUT_LOW_APLHA_INDEX]  = (payloadData[i + 8] << 16) + (payloadData[i + 9] << 8) + payloadData[i + 10];
+                  allRawArray[ALLRAW_OUTPUT_HIGH_APLHA_INDEX] = (payloadData[i + 11] << 16) + (payloadData[i + 12] << 8) + payloadData[i + 13];
+                  allRawArray[ALLRAW_OUTPUT_LOW_BETA_INDEX]   = (payloadData[i + 14] << 16) + (payloadData[i + 15] << 8) + payloadData[i + 16];
+                  allRawArray[ALLRAW_OUTPUT_HIGH_BETA_INDEX]  = (payloadData[i + 17] << 16) + (payloadData[i + 18] << 8) + payloadData[i + 19];
+                  allRawArray[ALLRAW_OUTPUT_LOW_GAMMA_INDEX]  = (payloadData[i + 20] << 16) + (payloadData[i + 21] << 8) + payloadData[i + 22];
+                  allRawArray[ALLRAW_OUTPUT_MID_GAMMA_INDEX]  = (payloadData[i + 23] << 16) + (payloadData[i + 24] << 8) + payloadData[i + 25];
+                }
+                //Serial.println("ASIC");
+                break;
+
+              default:
                 break;
             }
           }
-   
+        }
+
+        if( poorQuality == 0 )
+        {
+          digitalWrite(13, HIGH);
+        }
+        else {
+          digitalWrite(13, LOW);
         }
 
       }
@@ -95,17 +136,17 @@ MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort 
 
 unsigned int MindwaveHeadset::getAttention()
 {
-  return this->attentionValue;
+  return attentionValue;
 }
 
 unsigned int MindwaveHeadset::getMeditation()
 {
-  return this->meditationValue;
+  return meditationValue;
 }
 
 int MindwaveHeadset::getRaw()
 {
-  return this->rawValue;
+  return rawValue;
 }
 
 void MindwaveHeadset::getAllRaw(long *allRawArray)
