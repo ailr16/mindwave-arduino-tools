@@ -8,7 +8,18 @@ https://developer.neurosky.com/docs/lib/exe/fetch.php?media=mindset_communicatio
 **WORK IN PROGRESS**
 
 ## Interfaces
-getAttention()  
-getMeditation()  
-getRaw()  
-getAllRaw()  
+
+#### readHeadset()
+Run as fast as possible to avoid data loss (in the actual tests is called inside loop())
+
+#### getAttention()
+Get the atttention value. This value is updated tipically every second
+
+#### getMeditation()
+Get the meditation value. This value is updated tipically every second
+
+#### getRaw()
+Get raw wave value. This value is updated tipically 2ms
+
+#### getAllRaw()
+Get all posible raw values (Delta, Theta, Beta, and Gamma waves). This values are updated tipically every second
