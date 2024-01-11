@@ -6,106 +6,105 @@
 byte MindwaveHeadset::ReadOneByte() {
   int ByteRead;
 
-  ByteRead = serialPort.read();
-  Serial.println(ByteRead);
-
+  while( !Serial1.available() );
+  ByteRead = Serial1.read();
+  
   return ByteRead;
 }
 
 void MindwaveHeadset::readHeadset()
 {
-  if( serialPort.available() )
-  {
-    if (ReadOneByte() == SYNC_BYTE_1) {
-      if (ReadOneByte() == SYNC_BYTE_2) {
-        payloadLength = ReadOneByte();
+  if( ReadOneByte() == SYNC_BYTE_1 ) {
+    if(ReadOneByte() == SYNC_BYTE_2) {
 
-        if( payloadLength > 169 )
-        {
-          return;
-        }
+      payloadLength = ReadOneByte();
+      if( payloadLength > 169 )
+      {
+        // Invalid length
+        return;
+      }
 
-        generatedChecksum = 0;
-        for( int i = 0; i < payloadLength; i++ )
-        {
-          payloadData[i] = ReadOneByte();
-          generatedChecksum += payloadData[i];
-        }
+      generatedChecksum = 0;
+      for( int i = 0; i < payloadLength; i++ ) {  
+        payloadData[ i ] = ReadOneByte();
+        generatedChecksum += payloadData[ i ];
+      }   
 
-        checksum = ReadOneByte();
-        generatedChecksum = 0xFF - generatedChecksum;
+      checksum = ReadOneByte();
+      generatedChecksum = 255 - generatedChecksum;
 
-        Serial.print("CHECKSUM");
-        Serial.println(checksum);
-        Serial.print("GENERATED");
-        Serial.println(generatedChecksum);
+      if(checksum == generatedChecksum) {
 
-        if( generatedChecksum == checksum )
-        {
-          poorQuality = 200;
-          attention = 0;
-          meditation = 0;
+        poorQuality = 200;
+        attention = 0;
+        meditation = 0;
 
-          for( int i = 0; i < payloadLength; i++ )
-          {
-            switch( payloadData[i] )
-            {
-              case CODE_SIGNAL_QUALITY:
-                poorQuality = payloadData[i + 1];
-                //Serial.println("QUALITY");
-                break;
-              
-              case CODE_ATTENTION:
-                attention = payloadData[i + 1];
-                //Serial.println("ATTENTION");
-                break;
-              
-              case CODE_MEDITATION:
-                meditation = payloadData[i + 1];
-                //Serial.println("MEDITATION");
-                break;
+        for( int i = 0; i < payloadLength; i++ ){
+          switch (payloadData[i]) {
+            case CODE_SIGNAL_QUALITY:
+              i++;            
+              poorQuality = payloadData[i];
+              qualityValue = poorQuality;
+              bigPacket = true;            
+              break;
 
-              case CODE_RAW_WAVE_VALUE:
-                if( payloadData[i + 1] == 2 )
-                {
-                  rawValue = (payloadData[i + 2] * 256) + payloadData[i + 3];
-                  if( (rawValue & 0x8000) == 1 )
-                  {
-                    rawValue = rawValue - 0x10000;
-                  }
-                }
-                //Serial.println("RAW");
-                break;
+            case CODE_ATTENTION:
+              i++;
+              attention = payloadData[i];                        
+              break;
 
-              case CODE_ASIC_EEG_POWER:
-                if( payloadData[i + 1] == 24 )
-                {
-                  allRawArray[ALLRAW_OUTPUT_DELTA_INDEX]      = (payloadData[i + 2] << 16) + (payloadData[i + 3] << 8) + payloadData[i + 4];
-                  allRawArray[ALLRAW_OUTPUT_THETA_INDEX]      = (payloadData[i + 5] << 16) + (payloadData[i + 6] << 8) + payloadData[i + 7];
-                  allRawArray[ALLRAW_OUTPUT_LOW_APLHA_INDEX]  = (payloadData[i + 8] << 16) + (payloadData[i + 9] << 8) + payloadData[i + 10];
-                  allRawArray[ALLRAW_OUTPUT_HIGH_APLHA_INDEX] = (payloadData[i + 11] << 16) + (payloadData[i + 12] << 8) + payloadData[i + 13];
-                  allRawArray[ALLRAW_OUTPUT_LOW_BETA_INDEX]   = (payloadData[i + 14] << 16) + (payloadData[i + 15] << 8) + payloadData[i + 16];
-                  allRawArray[ALLRAW_OUTPUT_HIGH_BETA_INDEX]  = (payloadData[i + 17] << 16) + (payloadData[i + 18] << 8) + payloadData[i + 19];
-                  allRawArray[ALLRAW_OUTPUT_LOW_GAMMA_INDEX]  = (payloadData[i + 20] << 16) + (payloadData[i + 21] << 8) + payloadData[i + 22];
-                  allRawArray[ALLRAW_OUTPUT_MID_GAMMA_INDEX]  = (payloadData[i + 23] << 16) + (payloadData[i + 24] << 8) + payloadData[i + 25];
-                }
-                //Serial.println("ASIC");
-                break;
+            case CODE_MEDITATION:
+              i++;
+              meditation = payloadData[i];
+              break;
 
-              default:
-                break;
-            }
+            case CODE_RAW_WAVE_VALUE:
+              if( payloadData[i + 1] == 2 )
+              {
+                rawValue = (payloadData[ i + 2 ] << 8) | payloadData[i + 3];
+              }
+              i = i + 3;
+              break;
+
+            case CODE_ASIC_EEG_POWER:
+              if( payloadData[i + 1] == 24 )
+              {
+                allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ]      = (payloadData[i + 2] << 16) + (payloadData[i + 3] << 8) + payloadData[i + 4];
+                allRawArray[ ALLRAW_OUTPUT_THETA_INDEX ]      = (payloadData[i + 5] << 16) + (payloadData[i + 6] << 8) + payloadData[i + 7];
+                allRawArray[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ]  = (payloadData[i + 8] << 16) + (payloadData[i + 9] << 8) + payloadData[i + 10];
+                allRawArray[ ALLRAW_OUTPUT_HIGH_APLHA_INDEX ] = (payloadData[i + 11] << 16) + (payloadData[i + 12] << 8) + payloadData[i + 13];
+                allRawArray[ ALLRAW_OUTPUT_LOW_BETA_INDEX ]   = (payloadData[i + 14] << 16) + (payloadData[i + 15] << 8) + payloadData[i + 16];
+                allRawArray[ ALLRAW_OUTPUT_HIGH_BETA_INDEX ]  = (payloadData[i + 17] << 16) + (payloadData[i + 18] << 8) + payloadData[i + 19];
+                allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ]  = (payloadData[i + 20] << 16) + (payloadData[i + 21] << 8) + payloadData[i + 22];
+                allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ]  = (payloadData[i + 23] << 16) + (payloadData[i + 24] << 8) + payloadData[i + 25];
+              }
+              i = i + 25;   
+              break;
+
+            default:
+              break;
           }
         }
 
-        if( poorQuality == 0 )
-        {
-          digitalWrite(13, HIGH);
-        }
-        else {
-          digitalWrite(13, LOW);
+        if(bigPacket) {
+          if(poorQuality == 0)  digitalWrite(13, HIGH);
+          else  digitalWrite(13, LOW);
+          attentionValue = attention;
+          meditationValue = meditation;
+          deltaValue =     allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
+          thetaValue =     allRawArray[ ALLRAW_OUTPUT_THETA_INDEX ];
+          lowAlphaValue =  allRawArray[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ];
+          highAlphaValue = allRawArray[ ALLRAW_OUTPUT_HIGH_APLHA_INDEX ];
+          lowBetaValue =   allRawArray[ ALLRAW_OUTPUT_LOW_BETA_INDEX ];
+          highBetaValue =  allRawArray[ ALLRAW_OUTPUT_HIGH_BETA_INDEX ];
+          lowGammaValue =  allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ];
+          midGammaValue =  allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ];
         }
 
+        bigPacket = false;
+      }
+      else {
+        //Handle a checksum error here
       }
     }
   }
@@ -134,6 +133,11 @@ MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort 
   }
 }
 
+unsigned int MindwaveHeadset::getQuality()
+{
+  return qualityValue;
+}
+
 unsigned int MindwaveHeadset::getAttention()
 {
   return attentionValue;
@@ -144,19 +148,59 @@ unsigned int MindwaveHeadset::getMeditation()
   return meditationValue;
 }
 
+long MindwaveHeadset::getRawDelta( void )
+{
+  return deltaValue;
+}
+
+long MindwaveHeadset::getRawTheta( void )
+{
+  return thetaValue;
+}
+
+long MindwaveHeadset::getRawLowAlpha( void )
+{
+  return lowAlphaValue;
+}
+
+long MindwaveHeadset::getRawHighAlpha( void )
+{
+  return highAlphaValue;
+}
+
+long MindwaveHeadset::getRawLowBeta( void )
+{
+  return lowBetaValue;
+}
+
+long MindwaveHeadset::getRawHighBeta( void )
+{
+  return highBetaValue;
+}
+
+long MindwaveHeadset::getRawLowGamma( void )
+{
+  return lowGammaValue;
+}
+
+long MindwaveHeadset::getRawMidGamma( void )
+{
+  return midGammaValue;
+}
+
 int MindwaveHeadset::getRaw()
 {
   return rawValue;
 }
 
-void MindwaveHeadset::getAllRaw(long *allRawArray)
+void MindwaveHeadset::getAllRaw(long *allRawArrayOutput)
 {
-  allRawArray[ALLRAW_OUTPUT_DELTA_INDEX]      = this->allRawArray[0];
-  allRawArray[ALLRAW_OUTPUT_THETA_INDEX]      = this->allRawArray[1];
-  allRawArray[ALLRAW_OUTPUT_LOW_APLHA_INDEX]  = this->allRawArray[2];
-  allRawArray[ALLRAW_OUTPUT_HIGH_APLHA_INDEX] = this->allRawArray[3];
-  allRawArray[ALLRAW_OUTPUT_LOW_BETA_INDEX]   = this->allRawArray[4];
-  allRawArray[ALLRAW_OUTPUT_HIGH_BETA_INDEX]  = this->allRawArray[5];
-  allRawArray[ALLRAW_OUTPUT_LOW_GAMMA_INDEX]  = this->allRawArray[6];
-  allRawArray[ALLRAW_OUTPUT_MID_GAMMA_INDEX]  = this->allRawArray[7];
+  allRawArrayOutput[ ALLRAW_OUTPUT_DELTA_INDEX ]      = this->allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_THETA_INDEX ]      = this->allRawArray[ ALLRAW_OUTPUT_THETA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_HIGH_APLHA_INDEX ] = this->allRawArray[ ALLRAW_OUTPUT_HIGH_APLHA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_LOW_BETA_INDEX ]   = this->allRawArray[ ALLRAW_OUTPUT_LOW_BETA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_HIGH_BETA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_HIGH_BETA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ];
+  allRawArrayOutput[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ];
 }

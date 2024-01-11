@@ -31,6 +31,14 @@ class MindwaveHeadset
     unsigned int qualityValue;
     unsigned int attentionValue;
     unsigned int meditationValue;
+    long deltaValue;
+    long thetaValue;
+    long lowAlphaValue; 
+    long highAlphaValue;
+    long lowBetaValue; 
+    long highBetaValue;
+    long lowGammaValue; 
+    long midGammaValue;
     int rawValue;
     long allRawArray[8];
     byte ReadOneByte(void);
@@ -48,12 +56,21 @@ class MindwaveHeadset
   public:
     MindwaveHeadset( void );
     MindwaveHeadset( Stream& serialPort );
-    void init( void );
+    void readHeadset( void );
+    unsigned int getQuality( void );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
     int getRaw( void );
+    long getRawDelta( void );
+    long getRawTheta( void );
+    long getRawLowAlpha( void );
+    long getRawHighAlpha( void );
+    long getRawLowBeta( void );
+    long getRawHighBeta( void );
+    long getRawLowGamma( void );
+    long getRawMidGamma( void );
     void getAllRaw( long *allRawArray );
-    void readHeadset( void );
+    
 };
 
 #endif
