@@ -7,7 +7,7 @@ byte MindwaveHeadset::ReadOneByte() {
   int ByteRead;
 
   ByteRead = serialPort.read();
-  //Serial.println(ByteRead);
+  Serial.println(ByteRead);
 
   return ByteRead;
 }
@@ -35,10 +35,10 @@ void MindwaveHeadset::readHeadset()
         checksum = ReadOneByte();
         generatedChecksum = 0xFF - generatedChecksum;
 
-        //Serial.print("CHECKSUM");
-        //Serial.println(checksum);
-        //Serial.print("GENERATED");
-        //Serial.println(generatedChecksum);
+        Serial.print("CHECKSUM");
+        Serial.println(checksum);
+        Serial.print("GENERATED");
+        Serial.println(generatedChecksum);
 
         if( generatedChecksum == checksum )
         {

@@ -4,7 +4,7 @@
 #define SYNC_BYTE_1   0xAA
 #define SYNC_BYTE_2   0xAA
 
-#define HEADSET_BAUDRATE    57600u
+#define HEADSET_BAUDRATE    57600
 
 #define CODE_SIGNAL_QUALITY 0x02
 #define CODE_ATTENTION      0x04
@@ -43,6 +43,7 @@ class MindwaveHeadset
     byte poorQuality;
     byte attention;
     byte meditation;
+    boolean bigPacket;
 
   public:
     MindwaveHeadset( void );
