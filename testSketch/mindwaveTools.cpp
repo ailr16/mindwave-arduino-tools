@@ -2,12 +2,15 @@
 #include <Arduino.h>
 #include "mindwaveTools.h"
 
-
 byte MindwaveHeadset::ReadOneByte() {
   int ByteRead;
 
   while( !Serial1.available() );
   ByteRead = Serial1.read();
+
+  #if DEBUG_USB_SERIAL == true
+  Serial.println(ByteRead);
+  #endif 
   
   return ByteRead;
 }
@@ -59,14 +62,17 @@ void MindwaveHeadset::readHeadset()
               break;
 
             case CODE_RAW_WAVE_VALUE:
+              #if ENABLE_RAW == true
               if( payloadData[i + 1] == 2 )
               {
                 rawValue = (payloadData[ i + 2 ] << 8) | payloadData[i + 3];
               }
+              #endif
               i = i + 3;
               break;
 
             case CODE_ASIC_EEG_POWER:
+              #if ENABLE_ALL_RAW == true
               if( payloadData[i + 1] == 24 )
               {
                 allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ]      = (payloadData[i + 2] << 16) + (payloadData[i + 3] << 8) + payloadData[i + 4];
@@ -78,6 +84,7 @@ void MindwaveHeadset::readHeadset()
                 allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ]  = (payloadData[i + 20] << 16) + (payloadData[i + 21] << 8) + payloadData[i + 22];
                 allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ]  = (payloadData[i + 23] << 16) + (payloadData[i + 24] << 8) + payloadData[i + 25];
               }
+              #endif
               i = i + 25;   
               break;
 
@@ -91,6 +98,8 @@ void MindwaveHeadset::readHeadset()
           else  digitalWrite(13, LOW);
           attentionValue = attention;
           meditationValue = meditation;
+          
+          #if ENABLE_ALL_RAW == true
           deltaValue =     allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
           thetaValue =     allRawArray[ ALLRAW_OUTPUT_THETA_INDEX ];
           lowAlphaValue =  allRawArray[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ];
@@ -99,6 +108,7 @@ void MindwaveHeadset::readHeadset()
           highBetaValue =  allRawArray[ ALLRAW_OUTPUT_HIGH_BETA_INDEX ];
           lowGammaValue =  allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ];
           midGammaValue =  allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ];
+          #endif
         }
 
         bigPacket = false;
@@ -148,6 +158,14 @@ unsigned int MindwaveHeadset::getMeditation()
   return meditationValue;
 }
 
+#if ENABLE_RAW == true
+int MindwaveHeadset::getRaw()
+{
+  return rawValue;
+}
+#endif
+
+#if ENABLE_ALL_RAW == true
 long MindwaveHeadset::getRawDelta( void )
 {
   return deltaValue;
@@ -188,11 +206,6 @@ long MindwaveHeadset::getRawMidGamma( void )
   return midGammaValue;
 }
 
-int MindwaveHeadset::getRaw()
-{
-  return rawValue;
-}
-
 void MindwaveHeadset::getAllRaw(long *allRawArrayOutput)
 {
   allRawArrayOutput[ ALLRAW_OUTPUT_DELTA_INDEX ]      = this->allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
@@ -204,3 +217,4 @@ void MindwaveHeadset::getAllRaw(long *allRawArrayOutput)
   allRawArrayOutput[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_LOW_GAMMA_INDEX ];
   allRawArrayOutput[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ]  = this->allRawArray[ ALLRAW_OUTPUT_MID_GAMMA_INDEX ];
 }
+#endif

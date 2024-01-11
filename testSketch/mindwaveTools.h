@@ -1,6 +1,8 @@
 #ifndef MINDWAVE_TOOLS_H
 #define MINDWAVE_TOOLS_H
 
+#include <Arduino.h>
+
 #define SYNC_BYTE_1   0xAA
 #define SYNC_BYTE_2   0xAA
 
@@ -21,7 +23,9 @@
 #define ALLRAW_OUTPUT_LOW_GAMMA_INDEX  6
 #define ALLRAW_OUTPUT_MID_GAMMA_INDEX  7
 
-#include <Arduino.h>
+#define DEBUG_USB_SERIAL  false
+#define ENABLE_RAW        true
+#define ENABLE_ALL_RAW    true
 
 class MindwaveHeadset
 {
@@ -60,7 +64,12 @@ class MindwaveHeadset
     unsigned int getQuality( void );
     unsigned int getAttention( void );
     unsigned int getMeditation( void );
-    int getRaw( void );
+
+    #if ENABLE_RAW == true
+    int  getRaw( void );
+    #endif
+
+    #if ENABLE_ALL_RAW == true
     long getRawDelta( void );
     long getRawTheta( void );
     long getRawLowAlpha( void );
@@ -70,7 +79,7 @@ class MindwaveHeadset
     long getRawLowGamma( void );
     long getRawMidGamma( void );
     void getAllRaw( long *allRawArray );
-    
+    #endif
 };
 
 #endif
