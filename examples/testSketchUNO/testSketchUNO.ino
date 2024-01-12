@@ -6,7 +6,7 @@
 //
 // https://github.com/ailr16/mindwave-arduino-tools
 // 
-// Mexico  01.11.2023
+// Mexico  01.11.2024
 ////////////////////////////////////////////////////////////////////////
 
 #define SERIAL_USB_BAUDRATE   115200

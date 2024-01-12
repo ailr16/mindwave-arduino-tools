@@ -1,6 +1,6 @@
 # Tool for read RAW data from serial port and plot
 # ailr16.github.io
-# Dec 2023
+# Jan 2024
 
 import matplotlib.pyplot as plt
 import serial
