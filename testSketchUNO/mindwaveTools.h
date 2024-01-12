@@ -40,8 +40,20 @@ class MindwaveHeadset
     /* General attributes */
     Stream& serialPort;
     unsigned int qualityValue;
+
+    #if ENABLE_ATTENTION
     unsigned int attentionValue;
+    #endif
+
+    #if ENABLE_MEDITATION
     unsigned int meditationValue;
+    #endif
+
+    #if ENABLE_RAW
+    int rawValue;
+    #endif
+
+    #if ENABLE_ALL_RAW
     long deltaValue;
     long thetaValue;
     long lowAlphaValue; 
@@ -50,9 +62,9 @@ class MindwaveHeadset
     long highBetaValue;
     long lowGammaValue; 
     long midGammaValue;
-    int rawValue;
     long allRawArray[8];
-    byte ReadOneByte(void);
+    #endif
+
     unsigned char qualityIndicatorPin;
 
     /* Attributes used by reading methods */
@@ -64,6 +76,8 @@ class MindwaveHeadset
     byte attention;
     byte meditation;
     boolean bigPacket;
+
+    byte ReadOneByte(void);
 
   public:
     MindwaveHeadset( Stream& serialPort );

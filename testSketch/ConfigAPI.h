@@ -44,7 +44,7 @@
  * 
  * Default: 1 (all raw enabled)
  */
-#define ENABLE_ALL_RAW    1
+#define ENABLE_ALL_RAW    0
 
 /**
  * @brief Enable using pin as output quality indicator
