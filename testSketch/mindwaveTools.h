@@ -10,8 +10,8 @@
 #include "ConfigAPI.h"
 
 
-#define SYNC_BYTE_1   0xAA          /*!< First byte readed for indentify package  */
-#define SYNC_BYTE_2   0xAA          /*!< Second byte readed for indentify package */
+#define SYNC_BYTE_1   0xAA          /*!< First byte read for indentify package  */
+#define SYNC_BYTE_2   0xAA          /*!< Second byte read for indentify package */
 
 #define HEADSET_BAUDRATE    57600   /*!< Headset bluetooth baudrate is 57600 */
 
