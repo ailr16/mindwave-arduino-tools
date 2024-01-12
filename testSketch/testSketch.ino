@@ -17,7 +17,7 @@
 MindwaveHeadset headset( Serial1 );
 
 void setup() {
-  Serial.begin(SERIAL_USB_BAUDRATE);        // Printing readed data in serial
+  Serial.begin(SERIAL_USB_BAUDRATE);        // Printing read data in serial
   Serial1.begin(HEADSET_BAUDRATE);          // HC05 connected to serial1
   pinMode(PIN_QUALITY_INDICATOR, OUTPUT);
   headset.setOutputQualityPin( PIN_QUALITY_INDICATOR );
