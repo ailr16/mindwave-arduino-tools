@@ -2,7 +2,7 @@
 // Arduino Bluetooth Interface with Mindwave
 //
 // Sketch to test Mindwave API implementations
-// Tested on Arduino Mega 2560 using HC05
+// Tested on Arduino UNO using HC05
 //
 // https://github.com/ailr16/mindwave-arduino-tools
 // 
@@ -14,26 +14,15 @@
 
 #include "mindwaveTools.h"
 
-MindwaveHeadset headset( Serial1 );
+MindwaveHeadset headset( Serial );
 
 void setup() {
-  Serial.begin(SERIAL_USB_BAUDRATE);        // Printing read data in serial
-  Serial1.begin(HEADSET_BAUDRATE);          // HC05 connected to serial1
+  Serial.begin(HEADSET_BAUDRATE);
   pinMode(PIN_QUALITY_INDICATOR, OUTPUT);
   headset.setOutputQualityPin( PIN_QUALITY_INDICATOR );
 }
 
 
 void loop() {
-  headset.readHeadset();
-  
-  Serial.print(headset.getQuality());
-  Serial.print(",");
-  Serial.print(headset.getAttention());
-  Serial.print(",");
-  Serial.print(headset.getMeditation());
-  Serial.print(",");
-  Serial.print(headset.getRaw());
-  Serial.print("\n");
-  
+  headset.readHeadset();  
 }
