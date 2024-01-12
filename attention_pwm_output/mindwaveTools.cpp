@@ -32,13 +32,33 @@ byte MindwaveHeadset::ReadOneByte() {
 MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort )
 {
   qualityValue = 0;
+
+  #if ENABLE_ATTENTION
   attentionValue = 0;
+  #endif
+
+  #if ENABLE_MEDITATION
   meditationValue = 0;
+  #endif
+
+  #if ENABLE_RAW
   rawValue = 0;
+  #endif
+
+  #if ENABLE_ALL_RAW
+  deltaValue     = 0;
+  thetaValue     = 0;
+  lowAlphaValue  = 0; 
+  highAlphaValue = 0;
+  lowBetaValue   = 0; 
+  highBetaValue  = 0;
+  lowGammaValue  = 0; 
+  midGammaValue  = 0;
   for( int i = 0; i < 8; i++ )
   {
     allRawArray[i] = 0;
   }
+  #endif
 
   generatedChecksum = 0;
   checksum = 0;

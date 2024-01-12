@@ -23,28 +23,28 @@
  * 
  * Default: 1 (attention enabled)
  */
-#define ENABLE_ATTENTION  1
+#define ENABLE_ATTENTION  0
 
 /**
  * @brief Enable reading meditation values
  * 
  * Default: 1 (meditation enabled)
  */
-#define ENABLE_MEDITATION 1
+#define ENABLE_MEDITATION 0
 
 /**
  * @brief Enable reading raw values
  * 
  * Default: 1 (raw enabled)
  */
-#define ENABLE_RAW        1
+#define ENABLE_RAW        0
 
 /**
  * @brief Enable reading all raw values
  * 
  * Default: 1 (all raw enabled)
  */
-#define ENABLE_ALL_RAW    1
+#define ENABLE_ALL_RAW    0
 
 /**
  * @brief Enable using pin as output quality indicator
