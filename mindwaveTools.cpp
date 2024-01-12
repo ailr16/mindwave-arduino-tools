@@ -14,8 +14,8 @@
 byte MindwaveHeadset::ReadOneByte() {
   int ByteRead;
 
-  while( !Serial1.available() );
-  ByteRead = Serial1.read();
+  while( !serialPort.available() );
+  ByteRead = serialPort.read();
 
   #if DEBUG_USB_SERIAL
   Serial.println(ByteRead);
