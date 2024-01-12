@@ -12,7 +12,7 @@
 #define SERIAL_USB_BAUDRATE   115200
 #define PIN_QUALITY_INDICATOR 13
 
-#include "mindwaveTools.h"
+#include <mindwaveTools.h>
 
 MindwaveHeadset headset( Serial1 );
 

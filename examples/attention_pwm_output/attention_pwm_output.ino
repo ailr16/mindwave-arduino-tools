@@ -13,7 +13,7 @@
 #define PIN_QUALITY_INDICATOR 13
 #define LED_PWM_PIN 11
 
-#include "mindwaveTools.h"
+#include <mindwaveTools.h>
 
 MindwaveHeadset headset( Serial );
 
