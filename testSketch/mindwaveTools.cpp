@@ -28,7 +28,6 @@ byte MindwaveHeadset::ReadOneByte() {
 /**
  * @brief Constructor with serial port used by headset and pin used as quality indicator
  * @param serialPort Serial port which communicates with headset
- * @param ledPin     Pin used as output for indicating data quality
  */
 MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort )
 {
