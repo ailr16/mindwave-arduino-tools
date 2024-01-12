@@ -44,6 +44,7 @@ class MindwaveHeadset
     int rawValue;
     long allRawArray[8];
     byte ReadOneByte(void);
+    unsigned char qualityIndicatorPin;
 
     /* Attributes used by reading methods */
     byte generatedChecksum;
@@ -57,7 +58,7 @@ class MindwaveHeadset
 
   public:
     MindwaveHeadset( void );
-    MindwaveHeadset( Stream& serialPort );
+    MindwaveHeadset( Stream& serialPort, unsigned char ledPin );
     void readHeadset( void );
     unsigned int getQuality( void );
 

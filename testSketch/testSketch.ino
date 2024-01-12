@@ -9,16 +9,17 @@
 // Mexico  01.11.2023
 ////////////////////////////////////////////////////////////////////////
 
-#define SERIAL_USB_BAUDRATE 115200
+#define SERIAL_USB_BAUDRATE   115200
+#define PIN_QUALITY_INDICATOR 13
 
 #include "mindwaveTools.h"
 
-MindwaveHeadset headset( Serial1 );
+MindwaveHeadset headset( Serial1, PIN_QUALITY_INDICATOR );
 
 void setup() {
-  Serial.begin(SERIAL_USB_BAUDRATE);   // USB
+  Serial.begin(SERIAL_USB_BAUDRATE);
   Serial1.begin(HEADSET_BAUDRATE);
-  pinMode(13, OUTPUT);
+  pinMode(PIN_QUALITY_INDICATOR, OUTPUT);
 }
 
 

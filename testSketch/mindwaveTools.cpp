@@ -102,10 +102,24 @@ void MindwaveHeadset::readHeadset()
         }
 
         if(bigPacket) {
-          if(poorQuality == 0)  digitalWrite(13, HIGH);
-          else  digitalWrite(13, LOW);
+          #if ENABLE_QUALITY_INDICATOR == true
+            if(poorQuality == 0)
+            {
+              digitalWrite( qualityIndicatorPin , HIGH);
+            }
+            else
+            {
+              digitalWrite( qualityIndicatorPin, LOW);
+            }
+          #endif
+
+          #if ENABLE_ATTENTION == true
           attentionValue = attention;
+          #endif
+
+          #if ENABLE_MEDITATION == true
           meditationValue = meditation;
+          #endif
           
           #if ENABLE_ALL_RAW == true
           deltaValue =     allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
@@ -128,8 +142,9 @@ void MindwaveHeadset::readHeadset()
   }
 }
 
-MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort )
+MindwaveHeadset::MindwaveHeadset( Stream& serialPort, unsigned char ledPin ) : serialPort( serialPort )
 {
+  qualityIndicatorPin = ledPin;
   qualityValue = 0;
   attentionValue = 0;
   meditationValue = 0;
