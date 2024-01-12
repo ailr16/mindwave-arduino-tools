@@ -66,7 +66,12 @@ class MindwaveHeadset
     boolean bigPacket;
 
   public:
-    MindwaveHeadset( Stream& serialPort, unsigned char ledPin );
+    MindwaveHeadset( Stream& serialPort );
+
+    #if ENABLE_QUALITY_INDICATOR
+    void setOutputQualityPin( unsigned char pin );
+    #endif
+    
     void readHeadset( void );
     unsigned int getQuality( void );
 

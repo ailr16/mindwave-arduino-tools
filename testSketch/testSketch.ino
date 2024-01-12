@@ -14,12 +14,13 @@
 
 #include "mindwaveTools.h"
 
-MindwaveHeadset headset( Serial1, PIN_QUALITY_INDICATOR );
+MindwaveHeadset headset( Serial1 );
 
 void setup() {
   Serial.begin(SERIAL_USB_BAUDRATE);
   Serial1.begin(HEADSET_BAUDRATE);
   pinMode(PIN_QUALITY_INDICATOR, OUTPUT);
+  headset.setOutputQualityPin( PIN_QUALITY_INDICATOR );
 }
 
 
@@ -34,5 +35,6 @@ void loop() {
   Serial.print(",");
   Serial.print(headset.getRaw());
   Serial.print("\n");
+  
   
 }

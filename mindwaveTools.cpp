@@ -7,6 +7,10 @@
 #include <Arduino.h>
 #include "mindwaveTools.h"
 
+
+/**
+ * @brief Read a byte from serial port
+ */
 byte MindwaveHeadset::ReadOneByte() {
   int ByteRead;
 
@@ -19,6 +23,47 @@ byte MindwaveHeadset::ReadOneByte() {
   
   return ByteRead;
 }
+
+
+/**
+ * @brief Constructor with serial port used by headset and pin used as quality indicator
+ * @param serialPort Serial port which communicates with headset
+ */
+MindwaveHeadset::MindwaveHeadset( Stream& serialPort ) : serialPort( serialPort )
+{
+  qualityValue = 0;
+  attentionValue = 0;
+  meditationValue = 0;
+  rawValue = 0;
+  for( int i = 0; i < 8; i++ )
+  {
+    allRawArray[i] = 0;
+  }
+
+  generatedChecksum = 0;
+  checksum = 0;
+  payloadLength = 0;
+  poorQuality = 0;
+  attention = 0;
+  meditation = 0;
+  for( int i = 0; i < 64; i++ )
+  {
+    payloadData[i] = 0;
+  }
+}
+
+
+#if ENABLE_QUALITY_INDICATOR
+/**
+ * @brief Set the pin used as output indicator for data quality
+ * @param pin Pin used as output
+ */
+void MindwaveHeadset::setOutputQualityPin(unsigned char pin)
+{
+  this->qualityIndicatorPin = pin;
+}
+#endif
+
 
 /**
  * @brief Receive data from headset and parse it
@@ -111,7 +156,7 @@ void MindwaveHeadset::readHeadset()
         }
 
         if(bigPacket) {
-          #if ENABLE_QUALITY_INDICATOR == true
+          #if ENABLE_QUALITY_INDICATOR
             if(poorQuality == 0)
             {
               digitalWrite( qualityIndicatorPin , HIGH);
@@ -122,15 +167,15 @@ void MindwaveHeadset::readHeadset()
             }
           #endif
 
-          #if ENABLE_ATTENTION == true
+          #if ENABLE_ATTENTION
           attentionValue = attention;
           #endif
 
-          #if ENABLE_MEDITATION == true
+          #if ENABLE_MEDITATION
           meditationValue = meditation;
           #endif
           
-          #if ENABLE_ALL_RAW == true
+          #if ENABLE_ALL_RAW
           deltaValue =     allRawArray[ ALLRAW_OUTPUT_DELTA_INDEX ];
           thetaValue =     allRawArray[ ALLRAW_OUTPUT_THETA_INDEX ];
           lowAlphaValue =  allRawArray[ ALLRAW_OUTPUT_LOW_APLHA_INDEX ];
@@ -148,36 +193,6 @@ void MindwaveHeadset::readHeadset()
         //Handle a checksum error here
       }
     }
-  }
-}
-
-
-/**
- * @brief Constructor with serial port used by headset and pin used as quality indicator
- * @param serialPort Serial port which communicates with headset
- * @param ledPin     Pin used as output for indicating data quality
- */
-MindwaveHeadset::MindwaveHeadset( Stream& serialPort, unsigned char ledPin ) : serialPort( serialPort )
-{
-  qualityIndicatorPin = ledPin;
-  qualityValue = 0;
-  attentionValue = 0;
-  meditationValue = 0;
-  rawValue = 0;
-  for( int i = 0; i < 8; i++ )
-  {
-    allRawArray[i] = 0;
-  }
-
-  generatedChecksum = 0;
-  checksum = 0;
-  payloadLength = 0;
-  poorQuality = 0;
-  attention = 0;
-  meditation = 0;
-  for( int i = 0; i < 64; i++ )
-  {
-    payloadData[i] = 0;
   }
 }
 

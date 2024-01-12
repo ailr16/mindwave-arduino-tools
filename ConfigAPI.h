@@ -14,42 +14,42 @@
 /**
  * @brief Enable debugging using Serial port
  * 
- * Default: false (debugging disabled)
+ * Default: 0 (debugging disabled)
  */
 #define DEBUG_USB_SERIAL  0
 
 /**
  * @brief Enable reading attention values
  * 
- * Default: true (attention enabled)
+ * Default: 1 (attention enabled)
  */
 #define ENABLE_ATTENTION  1
 
 /**
  * @brief Enable reading meditation values
  * 
- * Default: true (meditation enabled)
+ * Default: 1 (meditation enabled)
  */
 #define ENABLE_MEDITATION 1
 
 /**
  * @brief Enable reading raw values
  * 
- * Default: true (raw enabled)
+ * Default: 1 (raw enabled)
  */
 #define ENABLE_RAW        1
 
 /**
  * @brief Enable reading all raw values
  * 
- * Default: true (all raw enabled)
+ * Default: 1 (all raw enabled)
  */
 #define ENABLE_ALL_RAW    1
 
 /**
  * @brief Enable using pin as output quality indicator
  * 
- * Default: true (pin enabled)
+ * Default: 1 (pin enabled)
  */
 #define ENABLE_QUALITY_INDICATOR 1
 
