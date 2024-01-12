@@ -2,6 +2,7 @@
 #define MINDWAVE_TOOLS_H
 
 #include <Arduino.h>
+#include "ConfigAPI.h"
 
 #define SYNC_BYTE_1   0xAA
 #define SYNC_BYTE_2   0xAA
@@ -23,9 +24,6 @@
 #define ALLRAW_OUTPUT_LOW_GAMMA_INDEX  6
 #define ALLRAW_OUTPUT_MID_GAMMA_INDEX  7
 
-#define DEBUG_USB_SERIAL  false
-#define ENABLE_RAW        true
-#define ENABLE_ALL_RAW    true
 
 class MindwaveHeadset
 {
@@ -62,8 +60,14 @@ class MindwaveHeadset
     MindwaveHeadset( Stream& serialPort );
     void readHeadset( void );
     unsigned int getQuality( void );
+
+    #if ENABLE_ATTENTION == true
     unsigned int getAttention( void );
+    #endif
+
+    #if ENABLE_MEDITATION == true
     unsigned int getMeditation( void );
+    #endif
 
     #if ENABLE_RAW == true
     int  getRaw( void );

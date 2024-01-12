@@ -3,7 +3,7 @@
 //
 // Sketch to test Mindwave API implementations
 // 
-// Mexico  01.06.2023
+// Mexico  01.11.2023
 ////////////////////////////////////////////////////////////////////////
 
 #define SERIAL_USB_BAUDRATE 115200

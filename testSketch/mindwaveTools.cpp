@@ -53,12 +53,20 @@ void MindwaveHeadset::readHeadset()
 
             case CODE_ATTENTION:
               i++;
-              attention = payloadData[i];                        
+
+              #if ENABLE_ATTENTION == true
+              attention = payloadData[i];
+              #endif
+
               break;
 
             case CODE_MEDITATION:
               i++;
+
+              #if ENABLE_MEDITATION == true
               meditation = payloadData[i];
+              #endif
+
               break;
 
             case CODE_RAW_WAVE_VALUE:
@@ -148,15 +156,19 @@ unsigned int MindwaveHeadset::getQuality()
   return qualityValue;
 }
 
+#if ENABLE_ATTENTION == true
 unsigned int MindwaveHeadset::getAttention()
 {
   return attentionValue;
 }
+#endif
 
+#if ENABLE_MEDITATION == true
 unsigned int MindwaveHeadset::getMeditation()
 {
   return meditationValue;
 }
+#endif
 
 #if ENABLE_RAW == true
 int MindwaveHeadset::getRaw()
