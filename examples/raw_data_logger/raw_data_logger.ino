@@ -8,7 +8,7 @@
   Mexico  01.12.2024
 */
 
-#include "mindwaveTools.h"
+#include <mindwaveTools.h>
 
 #define SERIAL_USB_BAUDRATE 115200
 #define DATA_QUALITY_LED 13
