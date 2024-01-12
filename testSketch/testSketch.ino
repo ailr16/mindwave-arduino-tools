@@ -2,6 +2,9 @@
 // Arduino Bluetooth Interface with Mindwave
 //
 // Sketch to test Mindwave API implementations
+// Tested on Arduino Mega 2560 using HC05
+//
+// https://github.com/ailr16/mindwave-arduino-tools
 // 
 // Mexico  01.11.2023
 ////////////////////////////////////////////////////////////////////////
