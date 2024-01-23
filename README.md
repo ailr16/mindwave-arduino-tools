@@ -65,3 +65,7 @@ Use the file *ConfigAPI.h* to enable/disable features:
 
 *Using intellisense will show the enabled features while developing the code*
 *Disabling unused features will reduce the memory usage*
+
+## Instalation Guide
+
+[![Video thumbnail](http://img.youtube.com/vi/ywINGaymnAM/0.jpg)](https://www.youtube.com/watch?v=ywINGaymnAM "Bode Plotter (DS1054z and FY3224s)")
