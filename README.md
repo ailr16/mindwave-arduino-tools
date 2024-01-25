@@ -8,49 +8,52 @@ https://developer.neurosky.com/docs/lib/exe/fetch.php?media=mindset_communicatio
 
 ## Interfaces
 
-### void readHeadset( void )
-Run as fast as possible to avoid data loss (in the current tests is called inside loop())
+>```MindwaveHeadset( Stream& serialPort )```  
+Instantiate a handler object for headset. Specify the serial port (hardware and software serial allowed)
 
-### void setOutputQualityPin( unsigned char pin )
+> ```void setOutputQualityPin( unsigned char pin )```  
 Set pin as output for indicating the data quality (as a led)
 
-### unsigned int getQuality( void )
+>```void readHeadset( void )```  
+Run as fast as possible to avoid data loss (in the current tests is called inside loop())
+
+> ```unsigned int getQuality( void )```  
 Get the current quiality value, a 0 value indicates good quality data, otherwise a higher value means poor quality
 
-### unsigned int getAttention( void )
+> ```unsigned int getAttention( void )```  
 Get the atttention value. This value is updated tipically every second
 
-### unsigned int getMeditation( void )
+> ```unsigned int getMeditation( void )```  
 Get the meditation value. This value is updated tipically every second
 
-### int getRaw( void )
+> ```int getRaw( void )```  
 Get raw wave value. This value is updated tipically 2ms
 
-### long getRawDelta( void )
+> ```long getRawDelta( void )```  
 Get the Delta current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawTheta( void )
+> ```long getRawTheta( void )```  
 Get the Theta current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawLowAlpha( void )
+> ```long getRawLowAlpha( void )```  
 Get the Low Alpha current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawHighAlpha( void )
+> ```long getRawHighAlpha( void )```  
 Get the High Alpha current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawLowBeta( void )
+> ```long getRawLowBeta( void )```  
 Get the Low Beta current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawHighBeta( void )
+> ```long getRawHighBeta( void )```  
 Get the High Beta current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawLowGamma( void )
+> ```long getRawLowGamma( void )```  
 Get the Low Gamma current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### long getRawMidGamma( void )
+> ```long getRawMidGamma( void )```  
 Get the Mid Gamma current value (could be polled as fast as possible, but updates aproximately once a second)
 
-### void getAllRaw( long *allRawArray )
+> ```void getAllRaw( long *allRawArray )```  
 Get all the raw values (Delta, Theta, Beta and Gamma) in an array (only needs a call to retrieve all the raw values).
 This values are updated tipically every second
 
